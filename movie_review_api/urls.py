@@ -16,10 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from movies import views
+from movies.views import MovieListCreate, ReviewCreate
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('add_review/', views.add_review, name='add_review'),
-    path('movies/<str:movie_title>/', views.get_reviews, name='get_reviews'),
+    path('api/movies/', MovieListCreate.as_view(), name='movie-list-create'),
+    path('api/reviews/', ReviewCreate.as_view(), name='review-create'),
 ]

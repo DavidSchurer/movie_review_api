@@ -1,22 +1,36 @@
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+# movie_review_api\movies\views.py
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 from .models import Movie, Review
-import json
+from .serializers import MovieSerializer, ReviewSerializer
+from rest_framework.pagination import PageNumberPagination
 
-def add_review(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        movie, created = Movie.objects.get_or_create(title=data['movie'])
-        review = Review(movie=movie, rating=data['rating'], review=data['review'])
-        review.save()
-        return JsonResponse({'status': 'success'}, status=201)
-    return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
+class MovieListCreate(APIView):
+    def get(self, request):
+        # Retrive the movies from the database
+        movies = Movie.objects.all()
+        serializer = MovieSerializer(movies, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def post(self, request):
+        # Deserialize the movie data
+        serializer = ReviewSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-def get_reviews(request, movie_title):
-    try:
-        movie = Movie.objects.get(title=movie_title)
-        reviews = movie.reviews.all()
-        reviews_data = [{'rating': review.rating, 'review': review.review} for review in reviews]
-        return JsonResponse(reviews_data, safe=False)
-    except Movie.DoesNotExist:
-        return JsonResponse([], safe=False)
+class ReviewCreate(APIView):
+    pagination_class = None
+    def get(self, request):
+        reviews = Review.objects.all()
+        serializer = ReviewSerializer(reviews, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer = ReviewSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
