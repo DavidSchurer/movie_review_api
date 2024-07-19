@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure--9=+skqo4zqyalvhg!5j_3o#529z)^46wtvy!o=b@w7qhp@eq!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['18.191.141.175', 'localhost', '127.0.0.1', 'movie-review-app.s3-website.us-east-2.amazonaws.com']
+ALLOWED_HOSTS = ['18.191.141.175', 'movie-review-app.s3-website.us-east-2.amazonaws.com']
 
 # Application definition
 
@@ -136,3 +136,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'movie-review-site/build/static'),
 ]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
