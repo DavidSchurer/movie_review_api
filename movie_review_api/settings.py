@@ -25,8 +25,7 @@ SECRET_KEY = 'django-insecure--9=+skqo4zqyalvhg!5j_3o#529z)^46wtvy!o=b@w7qhp@eq!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'movie-review-app.s3-website.us-east-2.amazonaws.com']
 
 # Application definition
 
@@ -51,9 +50,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 CORS_ALLOWED_ORIGINS = [
+    'http://movie-review-app.s3-website.us-east-2.amazonaws.com',
     'http://localhost:3000',
 ]
 
