@@ -60,8 +60,9 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://movie-review-app.s3-website.us-east-2.amazonaws.com',
-    'http://localhost:3000',
 ]
+
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'movie_review_api.urls'
 
